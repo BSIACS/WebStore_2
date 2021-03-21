@@ -1,0 +1,57 @@
+﻿@model WebStore.Domain.ViewModels.OrderDetailViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Детальная информация по заказу №@Model.Id</h1>
+
+<div class="container">
+    <h3>Пользователь</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>UserName</td>
+                <td>Адрем</td>
+                <td>Телефон</td>
+                <td>Description</td>
+                <td>Email</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.User.Id</td>
+                <td>@Model.User.Name</td>
+                <td>@Model.Address</td>
+                <td>@Model.Phone</td>
+                <td>@Model.User.Description</td>
+                <td>@Model.User.Email</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Заказанные товары</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Артикул</td>
+                <td>Название</td>
+                <td>Брэнд</td>
+                <td>Цена</td>
+                <td>Количество</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Cart.Items) { 
+                <tr>
+                    <td>@item.product.Id</td>
+                    <td>@item.product.Name</td>
+                    <td>@item.product.Brand</td>
+                    <td>@item.product.Price</td>
+                    <td>@item.quantity</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

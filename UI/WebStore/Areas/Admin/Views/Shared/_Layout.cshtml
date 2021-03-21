@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-Shoper admin page</title>
+    <partial name="Partial/_Styles" />
+
+</head>
+<body>
+    <div id="wrapper">
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <partial name="Partial/_Header" />
+        </div>
+
+        <nav class="navbar-default navbar-side" role="navigation">
+            <partial name="Partial/_MainMenu" />
+        </nav>
+
+        <div id="page-wrapper">
+            <div id="page-inner">
+                @RenderBody()
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+        </div>
+
+        <partial name="Partial/_Footer" />
+
+        <partial name="Partial/_Scripts" />
+
+</body>
+</html>

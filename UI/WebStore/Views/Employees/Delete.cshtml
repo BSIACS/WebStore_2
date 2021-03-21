@@ -1,0 +1,91 @@
+﻿@model EmployeeViewModel
+
+@{
+    ViewData["Title"] = $"Удаление информации о сотруднике id:{Model.Id}";
+}
+
+
+<div class="container">
+
+    <div class="row">
+        <h2 class="title text-center">Удаление информации о сотруднике</h2>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td class="m_text-bold">
+                            Имя
+                        </td>
+                        <td>
+                            @Model.Name
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="m_text-bold">
+                            Фамилия
+                        </td>
+                        <td>
+                            @Model.Surename
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="m_text-bold">
+                            Отчество
+                        </td>
+                        <td>
+                            @Model.Patronymic
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="m_text-bold">
+                            Возраст
+                        </td>
+                        <td>
+                            @Model.Age
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="m_text-bold">
+                            Пол
+                        </td>
+                        <td>
+                            @Model.Gender
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="m_text-bold">
+                            Профессия
+                        </td>
+                        <td>
+                            @Model.Profession.Name
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-8"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="DeleteConfirm" asp-route-id="@Model.Id">
+                <input type="submit" value="Удалить" class="btn btn-danger" />
+                <a asp-action="EmployeesList" class="btn btn-info">К списку</a>
+            </form>
+        </div>
+        <div class="col-md-8"></div>
+    </div> 
+
+    <div class="row">
+        <hr />
+    </div>
+</div>
+

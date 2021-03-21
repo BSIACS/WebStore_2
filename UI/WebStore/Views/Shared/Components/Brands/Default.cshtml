@@ -1,0 +1,14 @@
+﻿@model IEnumerable<BrandViewModel>
+
+<div class="brands_products">
+    <!--brands_products-->
+    <h2>Бренды</h2>
+    <div class="brands-name">
+        <ul class="nav nav-pills nav-stacked">
+            @foreach (BrandViewModel brand in Model.Where(p => p.Quantity > 0))
+            {                
+                <li><a asp-controller="Catalogue" asp-action="Shop" asp-route-brandId="@brand.Id"> <span class="pull-right">(@brand.Quantity)</span>@brand.Name</a></li>
+            }            
+        </ul>
+    </div>
+</div><!--/brands_products-->

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<WebStore.Domain.Entities.Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Каталог</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>@Html.DisplayNameFor(p => p.Name)</th>
+            <th>@Html.DisplayNameFor(p => p.Brand)</th>
+            <th>@Html.DisplayNameFor(p => p.Section)</th>
+            <th>@Html.DisplayNameFor(p => p.ImageUrl)</th>
+            <th>@Html.DisplayNameFor(p => p.Price)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+        <tr>
+            <td><a asp-controller="Catalogue" asp-action="Edit" asp-route-id="@product.Id">Редакт.</a></td>
+            <td>@Html.DisplayFor(p => product.Name)</td>
+            <td>@Html.DisplayFor(p => product.Brand.Name)</td>
+            <td>@Html.DisplayFor(p => product.Section.Name)</td>
+            <td><img src="~/images/shop/@product.ImageUrl" width="50" alt="@product.Name" /></td>
+            <td>@Html.DisplayFor(p => product.Price)</td>
+            <td><a asp-controller="Catalogue" asp-action="Delete" asp-route-id="@product.Id">Удалить</a></td>
+        </tr>
+        }
+    </tbody>
+</table>

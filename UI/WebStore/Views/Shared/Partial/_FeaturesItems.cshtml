@@ -1,0 +1,26 @@
+﻿@model IEnumerable<ProductViewModel> 
+
+<div class="features_items">
+    <!--features_items-->
+    <h2 class="title text-center">Товары из каталога</h2>
+
+    @if (Model is null || !Model.Any())
+    {
+        <p>Товары отсутствуют</p>
+    }
+    else {
+        foreach (var product in Model) {
+            @await Html.PartialAsync("Partial/_ProductCart", product);
+        }
+    }
+    
+</div><!--features_items-->
+
+<div class="text-center">
+    <ul class="pagination">
+        <li class="active"><a href="">1</a></li>
+        <li><a href="">2</a></li>
+        <li><a href="">3</a></li>
+        <li><a href="">&raquo;</a></li>
+    </ul>
+</div>

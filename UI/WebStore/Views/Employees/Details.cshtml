@@ -1,0 +1,88 @@
+﻿@model WebStore.Domain.ViewModels.EmployeeViewModel
+
+<div class="container">
+    <div class="row">
+        <h2 class="title text-center">Карта сотрудника</h2>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            @if (Model != null)
+            {
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <td class="m_text-bold">
+                                Имя
+                            </td>
+                            <td>
+                                @Model.Name
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="m_text-bold">
+                                Фамилия
+                            </td>
+                            <td>
+                                @Model.Surename
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="m_text-bold">
+                                Отчество
+                            </td>
+                            <td>
+                                @Model.Patronymic
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="m_text-bold">
+                                Возраст
+                            </td>
+                            <td>
+                                @Model.Age
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="m_text-bold">
+                                Пол
+                            </td>
+                            <td>
+                                @Model.Gender
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="m_text-bold">
+                                Профессия
+                            </td>
+                            <td>
+                                @Model.Profession.Name
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>Сотрудник не найден</p>
+            }
+        </div>
+        <div class="col-md-8"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <a asp-action="EmployeesList" class="btn btn-info">К списку</a>
+        </div>
+        <div class="col-md-8"></div>
+    </div>
+
+    <div class="row">
+        <hr />
+    </div>
+</div>

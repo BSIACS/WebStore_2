@@ -1,0 +1,55 @@
+﻿@model WebStore.Domain.Identity.User
+
+<div class="container">
+    <div class="row">
+        <h2 class="title text-center">Ваши учетные данные</h2>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">            
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td class="m_text-bold">
+                            Имя
+                        </td>
+                        <td>
+                            @Model.UserName
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="m_text-bold">
+                            Описание
+                        </td>
+                        @if (!string.IsNullOrEmpty(Model.Description))
+                        {
+                            <td>
+                                @Model.Description
+                            </td>
+                        }
+                        else { 
+                            <td>
+                                Описание отсутствует
+                            </td>
+                        }
+
+                    </tr>
+                    
+                </tbody>
+            </table>            
+        </div>
+        <div class="col-md-8"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <a asp-action="ChangePassword" asp-controller="Account" class="btn btn-info">Сменить пароль</a>
+        </div>
+        <div class="col-md-8"></div>
+    </div>
+
+    <div class="row">
+        <hr />
+    </div>
+</div>
