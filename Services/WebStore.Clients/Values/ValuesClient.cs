@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,7 +11,7 @@ namespace WebStore.Clients
 {
     public class ValuesClient : BaseClient, IValuesService
     {
-        public ValuesClient(HttpClient client) : base(client, "api/values")
+        public ValuesClient(IConfiguration configuration) : base(configuration, "api/values")
         {
 
         }

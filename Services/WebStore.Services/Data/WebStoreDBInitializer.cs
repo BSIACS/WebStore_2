@@ -69,7 +69,7 @@ namespace WebStore.Services.Data
             }
             finally
             {
-                _logger.LogError(null, "Test, test, test!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                //_logger.LogError(null, "Test, test, test!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             }
 
 

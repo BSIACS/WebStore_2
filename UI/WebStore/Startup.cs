@@ -13,6 +13,9 @@ using WebStore.Services.Data;
 using WebStore.Services.Products.InCookies;
 using WebStore.Services.Products.InSqlDataBase;
 using WebStore.Employees.DAL.Context;
+using WebStore.Interfaces.TestApi;
+using WebStore.Clients;
+using System.Net.Http;
 
 namespace WebStore
 {
@@ -24,10 +27,10 @@ namespace WebStore
 
         public void ConfigureServices(IServiceCollection services)
         {            
-            services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));        //Соединение с базой данных WebStoreDb
+            services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(_configuration.GetConnectionString("DefaultConnection_2")));        //Соединение с базой данных WebStoreDb
             services.AddTransient<WebStoreDbInitializer>();                             // Добавлен инициализатор базы данных WebStoreDb
 
-            services.AddDbContext<EmployeesDb>(opt => opt.UseSqlServer(_configuration.GetConnectionString("EmployeesDbConnection")));   //Соединение с базой данных EmployeesDb
+            services.AddDbContext<EmployeesDb>(opt => opt.UseSqlServer(_configuration.GetConnectionString("EmployeesDbConnection_2")));   //Соединение с базой данных EmployeesDb
             services.AddTransient<EmployeesDbInitializer>();                            // Добавлен инициализатор базы данных EmployeesDb
 
             services.AddIdentity<User, Role>()
@@ -67,6 +70,8 @@ namespace WebStore
             services.AddTransient<IProductData, InSqlDbProductData>();
             services.AddScoped<ICartService, InCookiesCartService>();
             services.AddTransient<IOrderService, SqlOrderService>();
+            services.AddScoped<IValuesService, ValuesClient>();
+            
             services.AddMvc();                                                          // Добавлены сервисы MVC
         }
 
