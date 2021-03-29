@@ -13,6 +13,9 @@ using WebStore.Services.Data;
 using WebStore.Services.Products.InCookies;
 using WebStore.Services.Products.InSqlDataBase;
 using WebStore.Employees.DAL.Context;
+using WebStore.Interfaces.TestApi;
+using WebStore.Clients;
+using System.Net.Http;
 
 namespace WebStore
 {
@@ -67,6 +70,8 @@ namespace WebStore
             services.AddTransient<IProductData, InSqlDbProductData>();
             services.AddScoped<ICartService, InCookiesCartService>();
             services.AddTransient<IOrderService, SqlOrderService>();
+            services.AddScoped<IValuesService, ValuesClient>();
+            
             services.AddMvc();                                                          // Добавлены сервисы MVC
         }
 
