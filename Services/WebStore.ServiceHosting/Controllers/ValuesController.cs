@@ -35,24 +35,40 @@ namespace WebStore.ServiceHosting.Controllers
 
         // POST api/<ValuesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult Post([FromBody] string value)
         {
             _values.Add(value);
+
+            return Ok();
         }
 
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult Put(int id, [FromBody] string value)
         {
+            if (id < 0)
+                return BadRequest();
+            if (id >= _values.Count)
+                return NotFound();
+
             _values.RemoveAt(id);
             _values.Insert(id, value);
+
+            return Ok();
         }
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
+            if (id < 0)
+                return BadRequest();
+            if (id >= _values.Count)
+                return NotFound();
+
             _values.RemoveAt(id);
+
+            return Ok();
         }
     }
 }
