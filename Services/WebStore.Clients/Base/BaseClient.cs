@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace WebStore.Clients.Values
+namespace WebStore.Clients
 {
     public abstract class BaseClient
     {

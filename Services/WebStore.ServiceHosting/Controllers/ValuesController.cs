@@ -27,7 +27,7 @@ namespace WebStore.ServiceHosting.Controllers
         {
             if (id < 0)
                 return BadRequest();
-            if (id >= _values.Count())
+            if (id >= _values.Count)
                 return NotFound();
 
             return _values.ElementAt(id);
