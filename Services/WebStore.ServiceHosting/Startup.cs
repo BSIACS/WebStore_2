@@ -35,9 +35,19 @@ namespace WebStore.ServiceHosting
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddDbContext<WebStoreDB>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection_2")));
-            services.AddDbContext<EmployeesDb>(x => x.UseSqlServer(Configuration.GetConnectionString("EmployeesDbConnection_2")));
+            if (Environment.MachineName == "DESKTOP-CLR05D4")
+            {
+                services.AddDbContext<WebStoreDB>(x => x.UseSqlServer(Configuration.GetConnectionString("WebStoreDbConnection_DESKTOP-CLR05D4")));
+                services.AddDbContext<EmployeesDb>(x => x.UseSqlServer(Configuration.GetConnectionString("WebStoreDbConnection_DESKTOP-NFGP0QV")));
+            }
+            else if (Environment.MachineName == "DESKTOP-NFGP0QV")
+            {
+                services.AddDbContext<WebStoreDB>(x => x.UseSqlServer(Configuration.GetConnectionString("EmployeesDbConnection_DESKTOP-CLR05D4")));
+                services.AddDbContext<EmployeesDb>(x => x.UseSqlServer(Configuration.GetConnectionString("EmployeesDbConnection_DESKTOP-NFGP0QV")));
+            }
+            else
+                throw new Exception("Не удалось подключиться к какому-либо серверу БД");
+            
             services.AddTransient<WebStoreDbInitializer>();
             services.AddTransient<EmployeesDbInitializer>();
 

@@ -15,22 +15,27 @@ namespace WebStore.ServiceHosting.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeesApiController : ControllerBase, IEmployeesDataService
+    public class EmployeesApiController : ControllerBase//, IEmployeesDataService
     {
-        private readonly InSqlDbEmployeesData _employeesData;
+        private readonly IEmployeesDataService _employeesData;
         private readonly ILogger<EmployeesApiController> _logger;
 
-        public EmployeesApiController([FromServices]InSqlDbEmployeesData employeesData, ILogger<EmployeesApiController> logger)
+        public EmployeesApiController(IEmployeesDataService employeesData, ILogger<EmployeesApiController> logger)
         {
             _employeesData = employeesData;
             _logger = logger;
         }
 
         [HttpGet]
-        public IList<Employee> GetAll() => _employeesData.GetAll();
+        public IList<Employee> Get()
+        {
+            var result = _employeesData.GetAll();
 
-        [HttpGet("{id}")]
-        public Employee GetById(int id) => _employeesData.GetById(id);
+            return result;
+        }
+
+        [HttpGet("{idr}")]
+        public Employee GetById(int idr) => _employeesData.GetById(idr);
 
         [HttpPost]
         public int Add(Employee employee)
@@ -61,6 +66,6 @@ namespace WebStore.ServiceHosting.Controllers
         [HttpDelete]
         public bool Remove(int id) => _employeesData.Remove(id);
 
-        public IEnumerable<Profession> GetProfessions() => _employeesData.GetProfessions();        
+        //public IEnumerable<Profession> GetProfessions() => _employeesData.GetProfessions();        
     }
 }

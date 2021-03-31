@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace WebStore.ServiceHosting.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    //[Route("api/[controller]")]
+    //[ApiController]
     public class ValuesController : ControllerBase
     {
         private static readonly List<string> _values = Enumerable.Range(1, 10).Select(x => $"Value_{x:00}").ToList();
