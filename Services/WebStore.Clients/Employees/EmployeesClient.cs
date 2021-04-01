@@ -2,50 +2,53 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
 using WebStore.Domain.Employees;
 using WebStore.Interfaces.Interfaces;
 
-namespace WebStore.Clients.Employees
+namespace WebStore.Clients
 {
-    class EmployeesClient : BaseClient, IEmployeesDataService
+    public class EmployeesClient : BaseClient, IEmployeesDataService
     {
+        private readonly IConfiguration _configuration;
         private readonly ILogger<EmployeesClient> _logger;
 
-        public EmployeesClient(IConfiguration configuration, ILogger<EmployeesClient> logger) : base(configuration, "api/Employees")
+        public EmployeesClient(IConfiguration configuration, ILogger<EmployeesClient> logger) : base(configuration, "/api/EmployeesApi")
         {
+            _configuration = configuration;
             _logger = logger;
         }
 
-        public IList<Employee> GetAll()
+        public IEnumerable<Employee> GetAll()
         {
-            throw new NotImplementedException();
+            return Get<IEnumerable<Employee>>(Address);
+        }
+
+        public IEnumerable<Profession> GetProfessions()
+        {
+            return Get<IEnumerable<Profession>>($"{Address}/GetProfessions");
         }
 
         public Employee GetById(int id)
         {
-            throw new NotImplementedException();
+            return Get<Employee>($"{Address}/{id}");
         }
 
 
-        public int Add(Employee employee)
+        public int Create(Employee employee)
         {
-            throw new NotImplementedException();
+            return Post(Address, employee).Content.ReadAsAsync<int>().Result;
         }
 
-        public void Edit(Employee employee)
+        public void Update(Employee employee)
         {
-            throw new NotImplementedException();
-        } 
-        
-        public IEnumerable<Profession> GetProfessions()
-        {
-            throw new NotImplementedException();
-        }
+            Put(Address, employee);
+        }              
 
-        public bool Remove(int id)
+        public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            return Delete($"{Address}/{id}").IsSuccessStatusCode;
         }
     }
 }

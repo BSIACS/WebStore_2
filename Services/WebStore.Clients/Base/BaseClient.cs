@@ -18,9 +18,9 @@ namespace WebStore.Clients
             
             Address = ServiceAddress;
 
-            Http = new HttpClient { 
+            Http = new HttpClient {
                 BaseAddress = new Uri(configuration["WebApiUrl"]),
-                DefaultRequestHeaders = { 
+                DefaultRequestHeaders = {
                     Accept = { new MediaTypeWithQualityHeaderValue("application/json")}
                 }
             };
@@ -61,14 +61,14 @@ namespace WebStore.Clients
         #endregion
 
         #region Delete
-        protected async Task<HttpResponseMessage> DeleteAsync<T>(string uri)
+        protected async Task<HttpResponseMessage> DeleteAsync(string uri)
         {
             HttpResponseMessage response = await Http.DeleteAsync(uri);
 
             return response.EnsureSuccessStatusCode();
         }
 
-        protected HttpResponseMessage Delete<T>(string uri) => DeleteAsync<T>(uri).Result;
+        protected HttpResponseMessage Delete(string uri) => DeleteAsync(uri).Result;
         #endregion
     }
 }

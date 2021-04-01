@@ -16,7 +16,7 @@ namespace WebStore.Services.Products.InMemory
             _employees = EmployeesInfoProvider.Employees;
         }
 
-        public int Add(Employee employee)
+        public int Create(Employee employee)
         {
             employee.Id = _employees.Max(x => x.Id) + 1;
             _employees.Add(employee);
@@ -24,7 +24,7 @@ namespace WebStore.Services.Products.InMemory
             return employee.Id;
         }
 
-        public void Edit(Employee employee)
+        public void Update(Employee employee)
         {
             Employee emp = _employees.FirstOrDefault(e => e.Id == employee.Id);
 
@@ -37,7 +37,7 @@ namespace WebStore.Services.Products.InMemory
             emp.Profession = employee.Profession;
         }
 
-        public IList<Employee> GetAll() => _employees;
+        public IEnumerable<Employee> GetAll() => _employees;
 
         public Employee GetById(int id)
         {
@@ -49,7 +49,7 @@ namespace WebStore.Services.Products.InMemory
             throw new NotImplementedException();
         }
 
-        public bool Remove(int id)
+        public bool Delete(int id)
         {
             Employee emp = GetById(id);
 

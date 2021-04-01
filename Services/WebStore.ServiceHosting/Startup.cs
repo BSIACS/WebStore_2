@@ -38,11 +38,11 @@ namespace WebStore.ServiceHosting
             if (Environment.MachineName == "DESKTOP-CLR05D4")
             {
                 services.AddDbContext<WebStoreDB>(x => x.UseSqlServer(Configuration.GetConnectionString("WebStoreDbConnection_DESKTOP-CLR05D4")));
-                services.AddDbContext<EmployeesDb>(x => x.UseSqlServer(Configuration.GetConnectionString("WebStoreDbConnection_DESKTOP-NFGP0QV")));
+                services.AddDbContext<EmployeesDb>(x => x.UseSqlServer(Configuration.GetConnectionString("EmployeesDbConnection_DESKTOP-CLR05D4")));
             }
             else if (Environment.MachineName == "DESKTOP-NFGP0QV")
             {
-                services.AddDbContext<WebStoreDB>(x => x.UseSqlServer(Configuration.GetConnectionString("EmployeesDbConnection_DESKTOP-CLR05D4")));
+                services.AddDbContext<WebStoreDB>(x => x.UseSqlServer(Configuration.GetConnectionString("WebStoreDbConnection_DESKTOP-NFGP0QV")));
                 services.AddDbContext<EmployeesDb>(x => x.UseSqlServer(Configuration.GetConnectionString("EmployeesDbConnection_DESKTOP-NFGP0QV")));
             }
             else

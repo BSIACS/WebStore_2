@@ -15,7 +15,7 @@ namespace WebStore.ServiceHosting.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeesApiController : ControllerBase//, IEmployeesDataService
+    public class EmployeesApiController : ControllerBase, IEmployeesDataService
     {
         private readonly IEmployeesDataService _employeesData;
         private readonly ILogger<EmployeesApiController> _logger;
@@ -27,18 +27,22 @@ namespace WebStore.ServiceHosting.Controllers
         }
 
         [HttpGet]
-        public IList<Employee> Get()
+        public IEnumerable<Employee> GetAll()
         {
             var result = _employeesData.GetAll();
 
             return result;
         }
 
-        [HttpGet("{idr}")]
-        public Employee GetById(int idr) => _employeesData.GetById(idr);
+        [HttpGet]
+        [Route("GetProfessions")]
+        public IEnumerable<Profession> GetProfessions() => _employeesData.GetProfessions();
+
+        [HttpGet("{id}")]
+        public Employee GetById(int id) => _employeesData.GetById(id);
 
         [HttpPost]
-        public int Add(Employee employee)
+        public int Create(Employee employee)
         {
             if (!ModelState.IsValid) {
                 _logger.LogWarning($"Ошибка модели данных при добавлении нового сотрудника " +
@@ -49,7 +53,7 @@ namespace WebStore.ServiceHosting.Controllers
 
             _logger.LogInformation($"Добавление сотрудника {employee.Name} {employee.Surename} {employee.Patronymic}");
 
-            int empID = _employeesData.Add(employee);
+            int empID = _employeesData.Create(employee);
 
             if(empID != 0)
                 _logger.LogInformation($"Cотрудника [id:{empID}] {employee.Name} {employee.Surename} {employee.Patronymic}" +
@@ -61,11 +65,10 @@ namespace WebStore.ServiceHosting.Controllers
         }
 
         [HttpPut]
-        public void Edit(Employee employee) => _employeesData.Edit(employee);
+        public void Update(Employee employee) => _employeesData.Update(employee);
 
-        [HttpDelete]
-        public bool Remove(int id) => _employeesData.Remove(id);
-
-        //public IEnumerable<Profession> GetProfessions() => _employeesData.GetProfessions();        
+        [HttpDelete("{id}")]
+        public bool Delete(int id) => _employeesData.Delete(id);
+          
     }
 }
