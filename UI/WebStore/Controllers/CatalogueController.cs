@@ -40,7 +40,7 @@ namespace WebStore.Controllers
         }
 
         public IActionResult Details(int id) {
-            Product product = _productData.GetProductById(id);
+            Product product = _productData.GetProductById(id).FromDTO();
 
             if (product is null)
                 return NotFound();

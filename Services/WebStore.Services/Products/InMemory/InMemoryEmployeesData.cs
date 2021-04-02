@@ -7,7 +7,7 @@ using WebStore.Services.Data;
 
 namespace WebStore.Services.Products.InMemory
 {
-    public class InMemoryEmployeesData : IEmployeesDataService
+    public class InMemoryEmployeesData// : IEmployeesDataService
     {
         readonly IList<Employee> _employees;
 

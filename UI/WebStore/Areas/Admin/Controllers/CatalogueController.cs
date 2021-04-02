@@ -29,7 +29,7 @@ namespace WebStore.Areas.Admin.Controllers
             if (product == null)
                 return NotFound();
 
-            return View(product.ToViewModel());
+            return View(product.FromDTO().ToViewModel());
         }
 
         [HttpPost]

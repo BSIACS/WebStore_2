@@ -17,7 +17,7 @@ using WebStore.Interfaces.TestApi;
 using WebStore.Clients;
 using System.Net.Http;
 using System.Configuration;
-
+using WebStore.Clients.WebStore;
 
 namespace WebStore
 {
@@ -80,7 +80,7 @@ namespace WebStore
 
             services.AddTransient<IEmployeesDataService, InSqlDbEmployeesData>();      // Добавлен сервис для работы со списком сотрудников
             services.AddTransient<IEmployeesDataService, EmployeesClient>();      
-            services.AddTransient<IProductData, InSqlDbProductData>();
+            services.AddTransient<IProductData, ProductClient>();
             services.AddScoped<ICartService, InCookiesCartService>();
             services.AddTransient<IOrderService, SqlOrderService>();
             services.AddScoped<IValuesService, ValuesClient>();
