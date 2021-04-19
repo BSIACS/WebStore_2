@@ -9,7 +9,7 @@ using WebStore.Services.Data;
 
 namespace WebStore.Services.Products.InMemory
 {
-    public class InMemoryProductData : IProductData
+    public class InMemoryProductData// : IProductData
     {
         public IEnumerable<Brand> GetBrands() => TestData.Brands;
 

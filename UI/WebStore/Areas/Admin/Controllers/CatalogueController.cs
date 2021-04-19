@@ -19,7 +19,7 @@ namespace WebStore.Areas.Admin.Controllers
         {
             var products = _productData.GetProducts();
 
-            return View(products);
+            return View(products.FromDTO());
         }
 
         [HttpGet]
@@ -29,7 +29,7 @@ namespace WebStore.Areas.Admin.Controllers
             if (product == null)
                 return NotFound();
 
-            return View(product.ToViewModel());
+            return View(product.FromDTO().ToViewModel());
         }
 
         [HttpPost]

@@ -37,7 +37,7 @@ namespace WebStore.Controllers
                     Patronymic = employee.Patronymic,
                     Age = employee.Age,
                     Gender = employee.Gender,
-                    Profession = _employeesDataService.GetProfessions().FirstOrDefault(p => p.Id == employee.ProfessionId),
+                    Profession = employee.Profession //_employeesDataService.GetProfessions().FirstOrDefault(p => p.Id == employee.ProfessionId),
                 });
             else
                 return NotFound();
@@ -68,7 +68,7 @@ namespace WebStore.Controllers
             if(id <= 0)
                 return BadRequest();
 
-            _employeesDataService.Remove(id);
+            _employeesDataService.Delete(id);
 
             return View("EmployeesList", _employeesDataService.GetAll());
         }
@@ -123,7 +123,7 @@ namespace WebStore.Controllers
                 ProfessionId = _employeesDataService.GetProfessions().FirstOrDefault(e => e.Id == employeeViewModel.ProfessionId).Id,
             };
 
-            _employeesDataService.Edit(employee);
+            _employeesDataService.Update(employee);
 
             return View("EmployeesList", _employeesDataService.GetAll());
         }
@@ -154,10 +154,10 @@ namespace WebStore.Controllers
                 Patronymic = employeeViewModel.Patronymic,
                 Age = employeeViewModel.Age,
                 Gender = employeeViewModel.Gender,
-                Profession = _employeesDataService.GetProfessions().Where(p => p.Id == employeeViewModel.ProfessionId).FirstOrDefault(),
+                //Profession = _employeesDataService.GetProfessions().Where(p => p.Id == employeeViewModel.ProfessionId).FirstOrDefault(),
+                ProfessionId = employeeViewModel.ProfessionId,
             };
-
-            _employeesDataService.Add(employee);
+            _employeesDataService.Create(employee);
 
             return View("EmployeesList", _employeesDataService.GetAll());
         }

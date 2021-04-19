@@ -1,7 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
+using WebStore.Domain.DTO.Orders;
+using WebStore.Domain.Identity;
 using WebStore.Domain.ViewModels;
 using WebStore.Interfaces.Interfaces;
 
@@ -10,10 +16,12 @@ namespace WebStore.Controllers
     public class CartController : Controller
     {
         private readonly ICartService _cartService;
+        private readonly UserManager<User> _userManager;
 
-        public CartController(ICartService cartService)
+        public CartController(ICartService cartService, UserManager<User> userManager)
         {
-            this._cartService = cartService;
+            _cartService = cartService;
+            _userManager = userManager;
         }
 
         public IActionResult AddToCart(int id) {
@@ -43,21 +51,32 @@ namespace WebStore.Controllers
             return Redirect(urlToReturn);
         }
 
-        public IActionResult Index() => View(new CartOrderViewModel() { Cart = _cartService.TransformToViewModel()});
+        public IActionResult Index() {
+            User user = _userManager.FindByNameAsync(User.Identity.Name).Result;
+
+            ViewData["UserId"] = user.Id;
+
+            return View(new CartOrderViewModel() { Cart = _cartService.TransformToViewModel() });
+        }
 
         [HttpPost]
-        public async Task<IActionResult> Checkout(OrderViewModel viewModel, [FromServices] IOrderService orderService, [FromServices] ILogger<CartController> logger) {
-
+        public async Task<IActionResult> Checkout(OrderViewModel viewModel, [FromServices] IOrderService orderService) {
+                        
             if (!ModelState.IsValid)
                 return RedirectToAction("Index", "Cart");
 
-            try
-            {
-                await orderService.CreateOrder(viewModel);
-            }
-            catch (Exception e) {
-                logger.LogError(e.Message);
-            }
+            List<OrderItemDTO> orderItemsDTOs = _cartService.TransformToViewModel().Items
+                .Select(item => new OrderItemDTO
+                (
+                    item.product.Id,
+                    null,
+                    item.product.Price,
+                    item.quantity
+                )).ToList();
+
+            await orderService.CreateOrder(new CreateOrderModel(viewModel, orderItemsDTOs));
+
+            _cartService.Clear();
 
             return RedirectToAction("Index", "Home");
         }

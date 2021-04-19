@@ -9,7 +9,8 @@ namespace WebStore.Domain.Employees
     public class Profession
     {
         /// <summary>Идентификатор</summary>
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public int Id { get; set; }
 
         /// <summary>Название профессии</summary>

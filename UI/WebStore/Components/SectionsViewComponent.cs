@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WebStore.Domain.Entities;
 using WebStore.Domain.ViewModels;
 using WebStore.Interfaces.Interfaces;
+using WebStore.Services.Mapping;
 
 namespace WebStore.Components
 {
@@ -22,13 +23,13 @@ namespace WebStore.Components
 
             var sections = _productData.GetSections().ToArray();
 
-            IEnumerable<Section> parentSections = sections.Where(s => s.ParentId is null);
-
+            IEnumerable<Section> parentSections = sections.FromDTO().Where(s => s.ParentId is null);
+            var pr = _productData.GetProducts();
             List<SectionViewModel> parentSectionViews = parentSections.Select(s => new SectionViewModel() {
                 Id = s.Id,
                 Name = s.Name,
                 Order = s.Order,
-                ProductsQuantity = s.ParentId is null ? _productData.GetProducts().Where(p => p.SectionId == s.Id).Count() : 0,
+                ProductsQuantity = s.ParentId is null ? _productData.GetProducts().Where(p => p.FromDTO().SectionId == s.Id).Count() : 0,
             }).ToList();
 
             foreach (var parentSection in parentSectionViews) {
@@ -38,9 +39,9 @@ namespace WebStore.Components
 
                 int ChildSections_ProductsCount = parentSection.ProductsQuantity;
 
-                foreach (Section childSection in childs)
+                foreach (var childSection in childs)
                 {
-                    int productQuantityTemp = _productData.GetProducts().Where(p => p.SectionId == childSection.Id).Count();
+                    int productQuantityTemp = _productData.GetProducts().Where(p => p.FromDTO().SectionId == childSection.Id).Count();
                     ChildSections_ProductsCount += productQuantityTemp;
 
                     parentSection.ChildSections.Add(new SectionViewModel()

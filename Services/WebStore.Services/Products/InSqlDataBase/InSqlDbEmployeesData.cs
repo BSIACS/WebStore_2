@@ -18,7 +18,7 @@ namespace WebStore.Services.Products.InSqlDataBase
             _db = db;
         }
 
-        public int Add(Employee employee)
+        public int Create(Employee employee)
         {
             _db.Add(employee);
             _db.SaveChanges();
@@ -26,22 +26,22 @@ namespace WebStore.Services.Products.InSqlDataBase
             return employee != null ? employee.Id : 0;
         }
 
-        public void Edit(Employee employee)
+        public void Update(Employee employee)
         {
             _db.Entry(employee).State = EntityState.Modified;
             _db.SaveChanges();
         }
 
-        public IList<Employee> GetAll()
+        public IEnumerable<Employee> GetAll()
         {
             IQueryable<Employee> employees = _db.Employees.Include(emp => emp.Profession);
-
+            var er = employees.ToList();
             return employees.ToList();
         }
 
         public Employee GetById(int id)
         {
-            return _db.Employees.FirstOrDefault(e => e.Id == id);
+            return _db.Employees.Include(e => e.Profession).FirstOrDefault(e => e.Id == id);
         }
 
         public IEnumerable<Profession> GetProfessions()
@@ -49,7 +49,7 @@ namespace WebStore.Services.Products.InSqlDataBase
             return _db.Professions;
         }
 
-        public bool Remove(int id)
+        public bool Delete(int id)
         {
             Employee employee = _db.Employees.FirstOrDefault(e => e.Id == id);
 

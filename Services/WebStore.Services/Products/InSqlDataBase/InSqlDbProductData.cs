@@ -5,8 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebStore.DAL.Context;
 using WebStore.Domain;
+using WebStore.Domain.DTO.Products;
 using WebStore.Domain.Entities;
 using WebStore.Interfaces.Interfaces;
+using WebStore.Services.Mapping;
 
 namespace WebStore.Services.Products.InSqlDataBase
 {
@@ -19,19 +21,19 @@ namespace WebStore.Services.Products.InSqlDataBase
             _dB = dB;
         }
 
-        public IEnumerable<Brand> GetBrands() => _dB.Brands.Include(brand => brand.Products);
+        public IEnumerable<BrandDTO> GetBrands() => _dB.Brands.Include(brand => brand.Products).ToDTO();
 
-        public Product GetProductById(int id)
+        public ProductDTO GetProductById(int id)
         {
             return _dB.Products
                 .Include(p => p.Brand)
                 .Include(p => p.Section)
-                .FirstOrDefault(p => p.Id == id);
+                .FirstOrDefault(p => p.Id == id).ToDTO();
         }
 
-        public IEnumerable<Product> GetProducts(ProductFilter productFilter = null)
+        public IEnumerable<ProductDTO> GetProducts(ProductFilter productFilter = null)
         {
-            IQueryable<Product> products = _dB.Products.Include(p => p.Brand);
+            IQueryable<Product> products = _dB.Products.Include(p => p.Brand).Include(p => p.Section);
 
             if (productFilter?.ProductsIds?.Length > 0)
             {
@@ -49,10 +51,10 @@ namespace WebStore.Services.Products.InSqlDataBase
                     products = products.Where(p => p.SectionId == productFilter.SectionId);
             }
 
-            return products;
+            return products.AsEnumerable().ToDTO();
         }
 
-        public IEnumerable<Section> GetSections() => _dB.Sections.Include(section => section.Products);
+        public IEnumerable<SectionDTO> GetSections() => _dB.Sections.Include(section => section.Products).ToDTO();
 
 
     }

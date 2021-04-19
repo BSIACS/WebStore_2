@@ -16,6 +16,8 @@ using WebStore.Employees.DAL.Context;
 using WebStore.Interfaces.TestApi;
 using WebStore.Clients;
 using System.Net.Http;
+using System.Configuration;
+using WebStore.Clients.WebStore;
 
 namespace WebStore
 {
@@ -26,12 +28,22 @@ namespace WebStore
         public Startup(IConfiguration configuration) => _configuration = configuration;
 
         public void ConfigureServices(IServiceCollection services)
-        {            
-            services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(_configuration.GetConnectionString("DefaultConnection_2")));        //Соединение с базой данных WebStoreDb
-            services.AddTransient<WebStoreDbInitializer>();                             // Добавлен инициализатор базы данных WebStoreDb
+        {
+            if (Environment.MachineName == "DESKTOP-CLR05D4")
+            {
+                services.AddDbContext<WebStoreDB>(x => x.UseSqlServer(_configuration.GetConnectionString("WebStoreDbConnection_DESKTOP-CLR05D4")));
+                services.AddDbContext<EmployeesDb>(x => x.UseSqlServer(_configuration.GetConnectionString("EmployeesDbConnection_DESKTOP-CLR05D4")));
+            }
+            else if (Environment.MachineName == "DESKTOP-NFGP0QV")
+            {
+                services.AddDbContext<WebStoreDB>(x => x.UseSqlServer(_configuration.GetConnectionString("WebStoreDbConnection_DESKTOP-NFGP0QV")));
+                services.AddDbContext<EmployeesDb>(x => x.UseSqlServer(_configuration.GetConnectionString("EmployeesDbConnection_DESKTOP-NFGP0QV")));
+            }
+            else
+                throw new Exception("Не удалось подключиться к какому-либо серверу БД");
 
-            services.AddDbContext<EmployeesDb>(opt => opt.UseSqlServer(_configuration.GetConnectionString("EmployeesDbConnection_2")));   //Соединение с базой данных EmployeesDb
-            services.AddTransient<EmployeesDbInitializer>();                            // Добавлен инициализатор базы данных EmployeesDb
+            services.AddTransient<WebStoreDbInitializer>();
+            services.AddTransient<EmployeesDbInitializer>();
 
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<WebStoreDB>()
@@ -67,10 +79,13 @@ namespace WebStore
             });
 
             services.AddTransient<IEmployeesDataService, InSqlDbEmployeesData>();      // Добавлен сервис для работы со списком сотрудников
-            services.AddTransient<IProductData, InSqlDbProductData>();
+            services.AddTransient<IEmployeesDataService, EmployeesClient>();      
+            services.AddTransient<IProductData, ProductClient>();
             services.AddScoped<ICartService, InCookiesCartService>();
-            services.AddTransient<IOrderService, SqlOrderService>();
+            //services.AddTransient<IOrderService, SqlOrderService>();
+            services.AddTransient<IOrderService, OrdersClient>();
             services.AddScoped<IValuesService, ValuesClient>();
+            services.AddTransient<EmployeesClient>();
             
             services.AddMvc();                                                          // Добавлены сервисы MVC
         }

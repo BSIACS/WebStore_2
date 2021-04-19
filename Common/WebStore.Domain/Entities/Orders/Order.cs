@@ -21,6 +21,6 @@ namespace WebStore.Domain.Entities.Orders
         [Required]
         public DateTime Date { get; set; }
 
-        public ICollection<OrderItem> Items { get; set; } = new List<OrderItem>();
+        public IEnumerable<OrderItem> Items { get; set; } = new List<OrderItem>();
     }
 }

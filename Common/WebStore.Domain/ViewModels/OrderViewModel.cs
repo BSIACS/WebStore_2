@@ -13,7 +13,7 @@ namespace WebStore.Domain.ViewModels
         public int Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string UserId { get; set; }
 
         [Required]
         public string Address { get; set; }

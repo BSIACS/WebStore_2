@@ -8,15 +8,15 @@ namespace WebStore.Interfaces.Interfaces
 {
     public interface IEmployeesDataService
     {
-        IList<Employee> GetAll();
+        IEnumerable<Employee> GetAll();
 
         Employee GetById(int id);
 
-        int Add(Employee employee);
+        int Create(Employee employee);
 
-        void Edit(Employee employee);
+        void Update(Employee employee);
 
-        bool Remove(int id);
+        bool Delete(int id);
 
         IEnumerable<Profession> GetProfessions();
     }

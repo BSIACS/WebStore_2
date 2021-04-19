@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace WebStore.ServiceHosting.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    //[Route("api/[controller]")]
+    //[ApiController]
     public class ValuesController : ControllerBase
     {
         private static readonly List<string> _values = Enumerable.Range(1, 10).Select(x => $"Value_{x:00}").ToList();
@@ -27,7 +27,7 @@ namespace WebStore.ServiceHosting.Controllers
         {
             if (id < 0)
                 return BadRequest();
-            if (id >= _values.Count())
+            if (id >= _values.Count)
                 return NotFound();
 
             return _values.ElementAt(id);

@@ -2,6 +2,7 @@
 using System.Linq;
 using WebStore.Domain.ViewModels;
 using WebStore.Interfaces.Interfaces;
+using WebStore.Services.Mapping;
 
 namespace WebStore.Components
 {
@@ -19,7 +20,7 @@ namespace WebStore.Components
             var brandsViewModels = _productData.GetBrands().Select(item => new BrandViewModel() { 
                 Id = item.Id,
                 Name = item.Name,
-                Quantity = item.Products.Count,
+                Quantity = item.ProductsCount
             });
 
             return View(brandsViewModels);
