@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebStore.Domain.DTO.Orders;
 using WebStore.Domain.Entities.Orders;
 using WebStore.Domain.ViewModels;
 
@@ -14,7 +15,8 @@ namespace WebStore.Services.Mapping
             OrderViewModel viewModel = new OrderViewModel
             {
                 Id = order.Id,
-                Name = order.Name,
+                //Name = order.User.UserName,
+                UserId = order.User.Id,
                 Address = order.Address,
                 Phone = order.Phone,
                 Date = order.Date
@@ -50,6 +52,43 @@ namespace WebStore.Services.Mapping
             }
 
             return cartViewModel;
+        }
+
+        public static OrderItemDTO ToDTO(this OrderItem orderItem) {
+            return orderItem == null ? null : new OrderItemDTO(orderItem.Id, orderItem.Product.ToDTO(), orderItem.Price, orderItem.Quantity);
+        }
+
+        public static OrderItem FromDTO(this OrderItemDTO orderItemDTO) {
+            return orderItemDTO == null ? null : new OrderItem() { 
+                Id = orderItemDTO.Id, 
+                Product = orderItemDTO.Product.FromDTO(),
+                Price = orderItemDTO.Price, 
+                Quantity = orderItemDTO.Quantity
+            };
+        }
+
+        public static OrderDTO ToDTO(this Order order) {
+            return new OrderDTO(order.Id, order.User, order.Address, order.Phone, order.Date, order.Items.Select(ToDTO));
+        }
+
+        public static Order FromDTO(this OrderDTO orderDTO) {
+            return new Order() {
+                Id = orderDTO.Id,
+                Address = orderDTO.Address,
+                User = orderDTO.User,
+                Phone = orderDTO.Phone,
+                Date = orderDTO.Date,
+                Items = orderDTO.OrderItems.Select(FromDTO)
+            };
+        }
+
+        public static IEnumerable<Order> FromDTO(this IEnumerable<OrderDTO> orderDTOs) {
+            return orderDTOs.Select(FromDTO);
+        }
+
+        public static IEnumerable<OrderDTO> ToDTO(this IEnumerable<Order> orders)
+        {
+            return orders.Select(ToDTO);
         }
     }
 }

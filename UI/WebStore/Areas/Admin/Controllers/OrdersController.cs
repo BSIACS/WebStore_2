@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using WebStore.Domain.ViewModels;
 using WebStore.Interfaces.Interfaces;
 using WebStore.Services.Mapping;
+using WebStore.Domain.DTO.Orders;
 
 namespace WebStore.Areas.Admin.Controllers
 {
@@ -18,33 +19,33 @@ namespace WebStore.Areas.Admin.Controllers
     public class OrdersController : Controller
     {
         private readonly IOrderService _orderService;
-        private readonly WebStoreDB _dB;
-        private readonly UserManager<User> _userManger;
 
-        public OrdersController(IOrderService orderService, WebStoreDB dB, UserManager<User> userManager)
+        public OrdersController(IOrderService orderService)
         {
             _orderService = orderService;
-            _dB = dB;
-            _userManger = userManager;
         }
 
         public IActionResult Index()
         {
-            List<Order> orders = _dB.Orders.Include(o => o.User).ToList();
+            List<Order> orders = _orderService.GetOrders().FromDTO().ToList();
 
             return View(orders.ToViewModels());
         }
 
         public async Task<IActionResult> OrderDetail(int id)
         {
-            Order order = await _orderService.GetOrderById(id);
+            OrderDTO orderDto = await _orderService.GetOrderById(id);
 
-            OrderDetailViewModel viewModel = new OrderDetailViewModel { 
+            Order order = orderDto.FromDTO();
+
+            OrderDetailViewModel viewModel = new OrderDetailViewModel
+            {
                 Id = order.Id,
                 Address = order.Address,
                 Phone = order.Phone,
                 Cart = order.ToCartViewModel(),
-                User = (await _userManger.FindByIdAsync(order.User.Id)).ToViewModel() };
+                User = order.User.ToViewModel()
+            };
 
             if (order is null)
                 return NotFound();

@@ -22,7 +22,8 @@
                 {
                     <tr>
                         <td>@order.Id</td>
-                        <td>@order.Name</td>
+                        @*<td>@order.User.UserName</td>*@
+                        <td>@order.UserId</td>
                         <td>@order.Date</td>
                         <td><a asp-action="OrderDetail" asp-route-id="@order.Id">Подробнее</a></td>
                     </tr>

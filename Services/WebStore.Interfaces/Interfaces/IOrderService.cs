@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebStore.Domain.DTO.Orders;
 using WebStore.Domain.Entities.Orders;
 using WebStore.Domain.ViewModels;
 
@@ -9,11 +10,13 @@ namespace WebStore.Interfaces.Interfaces
 {
     public interface IOrderService
     {
-        IEnumerable<Order> GetUserOrders(string UserName);
+        IEnumerable<OrderDTO> GetOrders();
 
-        Task<Order> GetOrderById(int id);
+        IEnumerable<OrderDTO> GetUserOrders(string userName);
 
-        Task CreateOrder(OrderViewModel viewModel);
+        Task<OrderDTO> GetOrderById(int id);
+
+        Task<OrderDTO> CreateOrder(CreateOrderModel model);
 
         void DeleteOrder(int id);
     }
