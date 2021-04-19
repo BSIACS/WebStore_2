@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using WebStore.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 using WebStore.Domain.ViewModels;
-using WebStore.Interfaces.Interfaces;
+using WebStore.Interfaces.Services;
 using WebStore.Services.Mapping;
 using WebStore.Domain.DTO.Orders;
 

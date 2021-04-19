@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.ViewModels;
-using WebStore.Interfaces.Interfaces;
+using WebStore.Interfaces.Services;
 using WebStore.Services.Mapping;
 
 namespace WebStore.Areas.Admin.Controllers

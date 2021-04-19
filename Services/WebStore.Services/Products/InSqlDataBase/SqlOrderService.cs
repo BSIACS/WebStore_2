@@ -11,7 +11,7 @@ using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Orders;
 using WebStore.Domain.Identity;
 using WebStore.Domain.ViewModels;
-using WebStore.Interfaces.Interfaces;
+using WebStore.Interfaces.Services;
 using WebStore.Services.Mapping;
 
 namespace WebStore.Services.Products.InSqlDataBase

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using WebStore.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
-using WebStore.Interfaces.Interfaces;
+using WebStore.Interfaces.Services;
 using WebStore.Services.Data;
 using WebStore.Services.Products.InCookies;
 using WebStore.Services.Products.InSqlDataBase;

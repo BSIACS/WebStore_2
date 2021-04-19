@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using WebStore.Domain.DTO.Orders;
 using WebStore.Domain.Entities.Orders;
 using WebStore.Domain.ViewModels;
-using WebStore.Interfaces.Interfaces;
+using WebStore.Interfaces.Services;
 
 namespace WebStore.ServiceHosting.Controllers
 {

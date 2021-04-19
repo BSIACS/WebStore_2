@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using WebStore.DAL.Context;
 using WebStore.Domain.Identity;
 using WebStore.Employees.DAL.Context;
-using WebStore.Interfaces.Interfaces;
+using WebStore.Interfaces.Services;
 using WebStore.Services.Data;
 using WebStore.Services.Products.InCookies;
 using WebStore.Services.Products.InSqlDataBase;

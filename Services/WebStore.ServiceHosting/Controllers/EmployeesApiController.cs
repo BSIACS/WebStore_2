@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Domain.Employees;
 using WebStore.Employees.DAL.Context;
-using WebStore.Interfaces.Interfaces;
+using WebStore.Interfaces.Services;
 using WebStore.Services.Products.InSqlDataBase;
 
 namespace WebStore.ServiceHosting.Controllers
