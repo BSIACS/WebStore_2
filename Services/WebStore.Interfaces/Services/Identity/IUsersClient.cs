@@ -8,7 +8,7 @@ using WebStore.Domain.Identity;
 
 namespace WebStore.Interfaces.Services.Identity
 {
-    public interface IUserClient : 
+    public interface IUsersClient : 
         IUserRoleStore<User>,
         IUserPasswordStore<User>,
         IUserEmailStore<User>,
