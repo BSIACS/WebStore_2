@@ -1,22 +1,17 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using WebStore.Clients;
+using WebStore.Clients.Identity;
 using WebStore.Clients.WebStore;
-using WebStore.DAL.Context;
 using WebStore.Domain.Identity;
-using WebStore.Employees.DAL.Context;
 using WebStore.Interfaces.Services;
 using WebStore.Interfaces.TestApi;
-using WebStore.Services.Data;
 using WebStore.Services.Products.InCookies;
-using WebStore.Services.Products.InSqlDataBase;
-using WebStore.Clients.Identity;
 
 namespace WebStore
 {
@@ -27,26 +22,9 @@ namespace WebStore
         public Startup(IConfiguration configuration) => _configuration = configuration;
 
         public void ConfigureServices(IServiceCollection services)
-        {
-            if (Environment.MachineName == "DESKTOP-CLR05D4")
-            {
-                //services.AddDbContext<WebStoreDB>(x => x.UseSqlServer(_configuration.GetConnectionString("WebStoreDbConnection_DESKTOP-CLR05D4")));
-                //services.AddDbContext<EmployeesDb>(x => x.UseSqlServer(_configuration.GetConnectionString("EmployeesDbConnection_DESKTOP-CLR05D4")));
-            }
-            else if (Environment.MachineName == "DESKTOP-NFGP0QV")
-            {
-                //services.AddDbContext<WebStoreDB>(x => x.UseSqlServer(_configuration.GetConnectionString("WebStoreDbConnection_DESKTOP-NFGP0QV")));
-                //services.AddDbContext<EmployeesDb>(x => x.UseSqlServer(_configuration.GetConnectionString("EmployeesDbConnection_DESKTOP-NFGP0QV")));
-            }
-            else
-                throw new Exception("Не удалось подключиться к какому-либо серверу БД");
-
-            //services.AddTransient<WebStoreDbInitializer>();
-            //services.AddTransient<EmployeesDbInitializer>();
-
+        {      
             services.AddIdentity<User, Role>()
                 .AddIdentityWebApiClients()
-                //.AddEntityFrameworkStores<WebStoreDB>()
                 .AddDefaultTokenProviders();
 
             
@@ -79,11 +57,9 @@ namespace WebStore
                 opt.SlidingExpiration = true;
             });
 
-            //services.AddTransient<IEmployeesDataService, InSqlDbEmployeesData>();      // Добавлен сервис для работы со списком сотрудников
             services.AddTransient<IEmployeesDataService, EmployeesClient>();      
             services.AddTransient<IProductData, ProductClient>();
             services.AddScoped<ICartService, InCookiesCartService>();
-            //services.AddTransient<IOrderService, SqlOrderService>();
             services.AddTransient<IOrderService, OrdersClient>();
             services.AddScoped<IValuesService, ValuesClient>();
                         
@@ -91,10 +67,8 @@ namespace WebStore
         }
 
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env/*, WebStoreDbInitializer webstoreDbInitializer, EmployeesDbInitializer employeesDbInitializer*/)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //webstoreDbInitializer.Initialize();                                         // Старт инициализатора базы данных WebStoreDb
-            //employeesDbInitializer.Initialize();                                        // Старт инициализатора базы данных EmployeesDb
 
             if (env.IsDevelopment())
             {
