@@ -41,8 +41,8 @@ namespace WebStore.Domain.ViewModels
         [Range(18, 80, ErrorMessage = "Допустимое значение находится в диапазоне 18 - 80")]
         public int? Age { get; set; }
 
-        [Display(Name = "Профессия")]
         /// <summary>Профессия</summary>
+        [Display(Name = "Профессия")]
         public int ProfessionId { get; set; }
 
         /// <summary>Профессия</summary>

@@ -6,6 +6,7 @@ using System.Text;
 
 namespace WebStore.Domain.Employees
 {
+    /// <summary>Сотрудник</summary>
     public class Employee
     {
         /// <summary>Идентификатор</summary>
