@@ -42,17 +42,18 @@ namespace WebStore.ServiceHosting.Controllers.Identity
         public async Task<string> GetUserNameAsync([FromBody] User user) => await _userStore.GetUserNameAsync(user);
 
         [HttpPost("UserName/{name}")]
-        public async Task<string> SetUserName([FromBody] User user, string name) {
+        public async Task<string> SetUserName([FromBody] User user, string name)
+        {
             await _userStore.SetUserNameAsync(user, name);
             await _userStore.UpdateAsync(user);
 
             return user.UserName;
         }
 
-        [HttpPost("NormalizedName")]
+        [HttpPost("NormalUserName")]
         public async Task<string> GetNormalizedUserNameAsync([FromBody] User user) => await _userStore.GetNormalizedUserNameAsync(user);
 
-        [HttpPost("NormalizedName/{name}")]
+        [HttpPost("NormalUserName/{name}")]
         public async Task<string> SetNormalizedUserName([FromBody] User user, string name)
         {
             await _userStore.SetNormalizedUserNameAsync(user, name);
@@ -62,7 +63,8 @@ namespace WebStore.ServiceHosting.Controllers.Identity
         }
 
         [HttpPost("User")]
-        public async Task<bool> CreateAsync([FromBody] User user) {
+        public async Task<bool> CreateAsync([FromBody] User user)
+        {
             IdentityResult creation_result = await _userStore.CreateAsync(user);
 
             return creation_result.Succeeded;
@@ -120,7 +122,7 @@ namespace WebStore.ServiceHosting.Controllers.Identity
             return await _userStore.GetRolesAsync(user);
         }
 
-        [HttpPost("Role/{role}")]
+        [HttpPost("InRole/{role}")]
         public async Task<bool> IsInRoleAsync([FromBody] User user, string role)
         {
             return await _userStore.IsInRoleAsync(user, role);
@@ -139,9 +141,9 @@ namespace WebStore.ServiceHosting.Controllers.Identity
         }
 
         [HttpPost("SetPasswordHash")]
-        public async Task<string> SetPasswordHashAsync([FromBody] User user, PasswordHashDTO hash)
+        public async Task<string> SetPasswordHashAsync([FromBody] PasswordHashDTO hash)
         {
-            await _userStore.SetPasswordHashAsync(user, hash.Hash);
+            await _userStore.SetPasswordHashAsync(hash.User, hash.Hash);
             await _userStore.UpdateAsync(hash.User);
 
             return hash.User.PasswordHash;
@@ -254,7 +256,7 @@ namespace WebStore.ServiceHosting.Controllers.Identity
             return await _userStore.GetNormalizedEmailAsync(user);
         }
 
-        [HttpPost("SetNormalizedEmail/{email}")]
+        [HttpPost("SetNormalizedEmail/{email?}")]
         public async Task<string> SetNormalizedEmailAsync([FromBody] User user, string email)
         {
             await _userStore.SetNormalizedEmailAsync(user, email);
@@ -299,7 +301,7 @@ namespace WebStore.ServiceHosting.Controllers.Identity
         #region Login/Logout
 
         [HttpPost("AddLogin")]
-        public async Task AddLoginAsync([FromBody] AddLoginDTO login, WebStoreDB dB)
+        public async Task AddLoginAsync([FromBody] AddLoginDTO login, [FromServices] WebStoreDB dB)
         {
             await _userStore.AddLoginAsync(login.User, login.UserLoginInfo);
             await dB.SaveChangesAsync();
@@ -383,5 +385,8 @@ namespace WebStore.ServiceHosting.Controllers.Identity
         }
 
         #endregion
+
+
+       
     }
 }
