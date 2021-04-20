@@ -14,7 +14,7 @@ using WebStore.Interfaces.Services.Identity;
 
 namespace WebStore.Clients.Identity
 {
-    class UsersClient : BaseClient, IUsersClient
+    public class UsersClient : BaseClient, IUsersClient
     {
         public UsersClient(IConfiguration configuration) : base(configuration, "/api/UsersApi")
         {
