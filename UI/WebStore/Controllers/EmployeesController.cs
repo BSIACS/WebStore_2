@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using WebStore.Domain.Employees;
 using WebStore.Domain.ViewModels;
-using WebStore.Interfaces.Interfaces;
+using WebStore.Interfaces.Services;
 
 namespace WebStore.Controllers
 {

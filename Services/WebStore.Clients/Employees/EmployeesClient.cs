@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using WebStore.Domain.Employees;
-using WebStore.Interfaces.Interfaces;
+using WebStore.Interfaces.Services;
 
 namespace WebStore.Clients
 {

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebStore.Domain;
 using WebStore.Domain.DTO.Products;
-using WebStore.Interfaces.Interfaces;
+using WebStore.Interfaces.Services;
 
 namespace WebStore.Clients.WebStore
 {

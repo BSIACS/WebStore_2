@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System.Linq;
 using WebStore.Domain.Entities;
 using WebStore.Domain.ViewModels;
-using WebStore.Interfaces.Interfaces;
+using WebStore.Interfaces.Services;
 using WebStore.Services.Products;
 
 namespace WebStore.Services.Products.InCookies

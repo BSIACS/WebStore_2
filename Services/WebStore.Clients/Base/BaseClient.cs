@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace WebStore.Clients
 {
-    public abstract class BaseClient
+    public abstract class BaseClient : IDisposable
     {
         protected string Address { get; }
 
@@ -27,10 +28,10 @@ namespace WebStore.Clients
         }
 
         #region Get
-        protected async Task<T> GetAsync<T>(string uri) {
-            HttpResponseMessage response = await Http.GetAsync(uri);
+        protected async Task<T> GetAsync<T>(string uri, CancellationToken cancel = default) {
+            HttpResponseMessage response = await Http.GetAsync(uri, cancel);
 
-            T retVal = await response.EnsureSuccessStatusCode().Content.ReadAsAsync<T>();
+            T retVal = await response.EnsureSuccessStatusCode().Content.ReadAsAsync<T>(cancel);
 
             return retVal;
         }
@@ -39,9 +40,9 @@ namespace WebStore.Clients
         #endregion
 
         #region Post
-        protected async Task<HttpResponseMessage> PostAsync<T>(string uri, T t)
+        protected async Task<HttpResponseMessage> PostAsync<T>(string uri, T t, CancellationToken cancel = default)
         {
-            HttpResponseMessage response = await Http.PostAsJsonAsync(uri, t);
+            HttpResponseMessage response = await Http.PostAsJsonAsync(uri, t, cancel);
 
             return response.EnsureSuccessStatusCode();
         }
@@ -50,9 +51,9 @@ namespace WebStore.Clients
         #endregion
 
         #region Put
-        protected async Task<HttpResponseMessage> PutAsync<T>(string uri, T t) 
+        protected async Task<HttpResponseMessage> PutAsync<T>(string uri, T t, CancellationToken cancel = default) 
         {
-            HttpResponseMessage response = await Http.PutAsJsonAsync(uri, t);
+            HttpResponseMessage response = await Http.PutAsJsonAsync(uri, t, cancel);
 
             return response.EnsureSuccessStatusCode();
         }
@@ -61,14 +62,24 @@ namespace WebStore.Clients
         #endregion
 
         #region Delete
-        protected async Task<HttpResponseMessage> DeleteAsync(string uri)
+        protected async Task<HttpResponseMessage> DeleteAsync(string uri, CancellationToken cancel = default)
         {
-            HttpResponseMessage response = await Http.DeleteAsync(uri);
+            HttpResponseMessage response = await Http.DeleteAsync(uri, cancel);
 
             return response.EnsureSuccessStatusCode();
         }
 
         protected HttpResponseMessage Delete(string uri) => DeleteAsync(uri).Result;
         #endregion
+
+        public void Dispose() {
+            Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing == true)
+                Http.Dispose();
+        }
     }
 }
