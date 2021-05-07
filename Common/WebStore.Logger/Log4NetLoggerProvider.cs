@@ -16,7 +16,7 @@ namespace WebStore.Logger
 
         public ILogger CreateLogger(string category)
         {
-            return _loggers.GetOrAdd(category, category => {
+            return _loggers.GetOrAdd(category, logger => {
                 var xml = new XmlDocument();
                 xml.Load(_configurationFile);
 

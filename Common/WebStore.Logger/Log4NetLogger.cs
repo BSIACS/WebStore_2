@@ -28,7 +28,7 @@ namespace WebStore.Logger
 
         public IDisposable BeginScope<TState>(TState state)
         {
-            return null;
+            return new NDCDisposable(Convert.ToString(state));
         }
 
         public bool IsEnabled(LogLevel logLevel)
@@ -76,6 +76,12 @@ namespace WebStore.Logger
                     _log.Fatal(log_message, exception);
                     break;
             }
+        }
+
+        private class NDCDisposable : IDisposable
+        {
+            public NDCDisposable(string s) { log4net.NDC.Push(s); }
+            public void Dispose() => log4net.NDC.Pop();
         }
     }
 }

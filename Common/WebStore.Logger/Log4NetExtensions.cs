@@ -20,5 +20,7 @@ namespace WebStore.Logger
 
             return factory;
         }
+
+        public static void Test(this ILoggerFactory factory) { factory.Test(); }
     }
 }
