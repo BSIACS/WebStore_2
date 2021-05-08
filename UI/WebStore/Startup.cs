@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using WebStore.Clients;
 using WebStore.Clients.Identity;
@@ -11,6 +12,7 @@ using WebStore.Clients.WebStore;
 using WebStore.Domain.Identity;
 using WebStore.Interfaces.Services;
 using WebStore.Interfaces.TestApi;
+using WebStore.Logger;
 using WebStore.Services.Products.InCookies;
 
 namespace WebStore
@@ -67,8 +69,9 @@ namespace WebStore
         }
 
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory logger)
         {
+            logger.AddLog4Net();
 
             if (env.IsDevelopment())
             {
