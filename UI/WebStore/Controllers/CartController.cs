@@ -61,9 +61,15 @@ namespace WebStore.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Checkout(OrderViewModel viewModel, [FromServices] IOrderService orderService) {
-                        
+
             if (!ModelState.IsValid)
-                return RedirectToAction("Index", "Cart");
+            {
+                return View("Index", new CartOrderViewModel
+                {
+                    Cart = _cartService.TransformToViewModel(),
+                    Order = viewModel
+                });
+            }
 
             List<OrderItemDTO> orderItemsDTOs = _cartService.TransformToViewModel().Items
                 .Select(item => new OrderItemDTO
@@ -74,11 +80,17 @@ namespace WebStore.Controllers
                     item.quantity
                 )).ToList();
 
-            await orderService.CreateOrder(new CreateOrderModel(viewModel, orderItemsDTOs));
+            var order = await orderService.CreateOrder(new CreateOrderModel(viewModel, orderItemsDTOs));
 
             _cartService.Clear();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("OrderConfirmed", new { Id = order.Id});
+        }
+
+        public IActionResult OrderConfirmed(int id)
+        {
+            ViewBag.OrderId = id;
+            return View();
         }
     }
 }

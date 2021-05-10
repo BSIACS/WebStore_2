@@ -24,7 +24,7 @@ namespace WebStore.Clients.WebStore
 
         public ProductDTO GetProductById(int id)
         {
-            return Get<ProductDTO>($"{Address}/{id}");
+            return Get<ProductDTO>($"{Address}/products/{id}");
         }
 
         public IEnumerable<ProductDTO> GetProducts(ProductFilter productFilter = null)

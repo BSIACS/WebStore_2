@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace WebStore.Controllers
 {
@@ -10,23 +11,18 @@ namespace WebStore.Controllers
 
         public IActionResult BlogSingle() => View();
 
-        public IActionResult Cart() => View();
+        public IActionResult SecondAction() => Content("Second controllers action");
 
         public IActionResult Error404() => View();
 
-        public IActionResult Checkout() => View();
+        public IActionResult ErrorStatus(string errorStatusCode) => errorStatusCode switch {
+                "404" => RedirectToAction(nameof(Error404)),
+                _ => Content($"Error status code {errorStatusCode}")
+        };
+
+        public IActionResult Throw(string id) => throw new ApplicationException(id);
 
         public IActionResult ContactUs() => View();
-
-        public IActionResult Login() => View();
-
-        public IActionResult ProductDetails() => View();
-
-        public IActionResult Shop() => View();
-
-        public void Test(string ReturnUrl) { 
-        
-        }
         
     }
 }
