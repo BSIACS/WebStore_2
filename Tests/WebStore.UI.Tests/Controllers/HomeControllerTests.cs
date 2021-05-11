@@ -6,7 +6,7 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace WebStore.Controllers.Tests
+namespace WebStore.UI.Tests.Controllers
 {
     [TestClass()]
     public class HomeControllerTests //57:50
