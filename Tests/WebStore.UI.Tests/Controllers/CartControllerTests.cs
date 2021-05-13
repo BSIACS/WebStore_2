@@ -87,7 +87,7 @@ namespace WebStore.UI.Tests.Controllers
             Mock<IOrderService> mockOrderService = new Mock<IOrderService>();
 
             //Act
-            IActionResult ret_IActionResult = await controller.Checkout(orderViewModel, mockOrderService.Object);
+            var ret_IActionResult = await controller.Checkout(orderViewModel, mockOrderService.Object);
 
             //Assert
             ViewResult ret_ViewResult = Assert.IsType<ViewResult>(ret_IActionResult);
