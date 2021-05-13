@@ -1,56 +1,24 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using WebStore.Domain.Entities;
 using WebStore.Domain.ViewModels;
 using WebStore.Interfaces.Services;
-using WebStore.Services.Products;
 
-namespace WebStore.Services.Products.InCookies
+namespace WebStore.Services.Products
 {
-    [Obsolete]
-    public class InCookiesCartService : ICartService
+    public class CartService : ICartService
     {
         private readonly IProductData _prductData;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly string _cartName;
+        private ICartStore _cartStore;
 
-        private Cart Cart
-        {
-            get
-            {
-                var context = _httpContextAccessor.HttpContext;
-                var cookies = context.Response.Cookies;
-                var cartCookie = context.Request.Cookies[_cartName];
-                if (cartCookie is null)
-                {
-                    var cart = new Cart();
-                    cookies.Append(_cartName, JsonConvert.SerializeObject(cart));
-                    return cart;
-                }
-
-                return JsonConvert.DeserializeObject<Cart>(cartCookie);
-
-            }
-            set
-            {
-                var context = _httpContextAccessor.HttpContext;
-                var cookies = context.Response.Cookies;
-                string serializedCart = JsonConvert.SerializeObject(value);
-                ReplaceCookie(cookies, _cartName, serializedCart);
-            }
-        }
-
-        public InCookiesCartService(IProductData prductData, IHttpContextAccessor httpContextAccessor)
+        public CartService(IProductData prductData, ICartStore cartStore)
         {
             _prductData = prductData;
-            _httpContextAccessor = httpContextAccessor;
-
-            var user = httpContextAccessor.HttpContext.User;
-            var userName = user.Identity.IsAuthenticated ? $"{user.Identity.Name}" : null;
-
-            _cartName = $"WebStore{userName}";
+            _cartStore = cartStore;
         }
 
         public void ReplaceCookie(IResponseCookies responseCookies, string key, string value)
@@ -61,7 +29,7 @@ namespace WebStore.Services.Products.InCookies
 
         public void AddToCart(int id)
         {
-            Cart cart = Cart;
+            Cart cart = _cartStore.Cart;
 
             CartItem cartItem = cart.Items.FirstOrDefault(i => i.ProductId == id);
 
@@ -74,12 +42,12 @@ namespace WebStore.Services.Products.InCookies
                 cart.Items.Add(new CartItem { ProductId = id, Quantity = 1 });
             }
 
-            Cart = cart;
+            _cartStore.Cart = cart;
         }
 
         public void DecrementFromCart(int id)
         {
-            Cart cart = Cart;
+            Cart cart = _cartStore.Cart;
 
             CartItem cartItem = cart.Items.FirstOrDefault(i => i.ProductId == id);
 
@@ -92,12 +60,12 @@ namespace WebStore.Services.Products.InCookies
             if (cartItem.Quantity == 0)
                 cart.Items.Remove(cartItem);
 
-            Cart = cart;
+            _cartStore.Cart = cart;
         }
 
         public void RemoveFromCart(int id)
         {
-            Cart cart = Cart;
+            Cart cart = _cartStore.Cart;
 
             CartItem cartItem = cart.Items.FirstOrDefault(i => i.ProductId == id);
 
@@ -106,21 +74,21 @@ namespace WebStore.Services.Products.InCookies
                 cart.Items.Remove(cartItem);
             }
 
-            Cart = cart;
+            _cartStore.Cart = cart;
         }
 
         public void Clear()
         {
-            Cart cart = Cart;
+            Cart cart = _cartStore.Cart;
 
             cart.Items.Clear();
 
-            Cart = cart;
+            _cartStore.Cart = cart;
         }
 
         public CartViewModel TransformToViewModel()
         {
-            Cart cart = Cart;
+            Cart cart = _cartStore.Cart;
 
             var products = _prductData.GetProducts(new Domain.ProductFilter() { ProductsIds = cart.Items.Select(i => i.ProductId).ToArray() });
 
@@ -136,8 +104,5 @@ namespace WebStore.Services.Products.InCookies
                 }, i.Quantity))
             };
         }
-
-
-
     }
 }
