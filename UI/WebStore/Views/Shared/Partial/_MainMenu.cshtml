@@ -1,26 +1,44 @@
 ﻿<div class="mainmenu pull-left">
     <ul class="nav navbar-nav collapse navbar-collapse">
-        <li><a asp-controller="Home" asp-action="Index" class="active">Главная</a></li>
+        <li><a ws-is-active-route asp-controller="Home" asp-action="Index">Главная</a></li>
         <li class="dropdown">
-            <a asp-controller="Home" asp-action="Shop">Магазин<i class="fa fa-angle-down"></i></a>
+            <a ws-is-active-route ws-ignore-action asp-controller="Catalogue" asp-action="Shop">Магазин<i class="fa fa-angle-down"></i></a>
             <ul role="menu" class="sub-menu">
                 <li><a asp-controller="Catalogue" asp-action="Shop">Товары</a></li>
-                <li><a asp-controller="Home" asp-action="ProductDetails">Информация о товаре</a></li>
+                <li><a asp-controller="Catalogue" asp-action="Details">Информация о товаре</a></li>
                 <li><a asp-controller="Home" asp-action="Checkout">Оформить заказ</a></li>
                 <li><a asp-controller="Home" asp-action="Cart">Корзина</a></li>
                 <li><a asp-controller="Home" asp-action="Login">Войти</a></li>
             </ul>
         </li>
         <li class="dropdown">
-            <a href="#">Блог<i class="fa fa-angle-down"></i></a>
+            <a ws-is-active-route asp-controller="Home" asp-action="Blog">Блог<i class="fa fa-angle-down"></i></a>
             <ul role="menu" class="sub-menu">
                 <li><a asp-controller="Home" asp-action="Blog">Список блогов</a></li>
                 <li><a asp-controller="Home" asp-action="BlogSingle">Блог</a></li>
             </ul>
         </li>
-        <li><a asp-controller="Home" asp-action="Error404">404</a></li>
-        <li><a asp-controller="Home" asp-action="ContactUs">Контакты</a></li>
-        <li><a asp-controller="Employees" asp-action="EmployeesList">Сотрудники</a></li>
-        <li><a asp-controller="WebAPI" asp-action="Index">WebAPI</a></li>
+        <li><a ws-is-active-route asp-controller="Home" asp-action="Error404">404</a></li>
+        <li><a ws-is-active-route asp-controller="Home" asp-action="ContactUs">Контакты</a></li>
+        <li><a ws-is-active-route asp-controller="Employees" asp-action="EmployeesList">Сотрудники</a></li>
+        <li><a ws-is-active-route asp-controller="WebAPI" asp-action="Index">WebAPI</a></li>
+        <li><a ws-is-active-route asp-controller="Test" asp-action="TestAction" asp-all-route-data='@(new Dictionary<string,string>{ { "id", "5" }, {"name", "tom" }, { "age", "18" } })'>Test</a></li>
     </ul>
 </div>
+
+
+@functions{ 
+    string CheckActive(string controller) {
+        var currentController = ViewContext.RouteData.Values["Controller"].ToString();
+
+        if (controller == null) {
+            return null;
+        }
+
+        if(Equals(controller, currentController)){
+            return "active";
+        }
+
+        return null;
+    }
+}
