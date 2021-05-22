@@ -1,9 +1,9 @@
 ﻿@model IEnumerable<SectionViewModel>
 
     <div class="panel-group category-products" id="accordian">
-        @foreach (var parent_section in Model.Where(p => p.ProductsQuantity >= 0))
+        @foreach (var parent_section in Model)
         {
-            if (parent_section.ChildSections.Count >= 0)
+            if (parent_section.ChildSections.Count > 0)
             {
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -14,18 +14,18 @@
                             </a>
                         </h4>
                     </div>
-                    <div id="@parent_section.GetHashCode()" class="panel-collapse collapse">
+                    <div id="@parent_section.GetHashCode()" class="panel-collapse collapse @(parent_section.Id == (int?)ViewData["parentSectionId"] ? "in" : string.Empty)">
                         <div class="panel-body">
                             <ul>
                                 @foreach (var child_section in parent_section.ChildSections.Where(c => c.ProductsQuantity >= 0))
                                 {
-                                    <li>
+                                    <li @(child_section.Id == (int?)ViewData["childSectionId"] ? "class=active" : string.Empty)>
                                         <a asp-controller="Catalogue" asp-action="Shop" asp-route-sectionId="@child_section.Id">
                                             @child_section.Name
                                         </a>
                                     </li>
-                                }
-                            </ul>                            
+                                    }
+                                </ul>                            
                         </div>
                     </div>
                 </div>

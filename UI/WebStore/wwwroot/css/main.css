@@ -2547,3 +2547,8 @@ h2.title {
 .my-dd-margin-bottom {
 	margin-bottom: 10px;
 }
+
+.panel-body ul li.active, .brands-name ul li.active {
+	text-decoration: underline;
+}
+

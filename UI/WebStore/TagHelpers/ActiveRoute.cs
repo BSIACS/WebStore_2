@@ -69,7 +69,7 @@ namespace WebStore.TagHelpers
 
             foreach (var (key, value) in RouteValues)
             {
-                if (!RouteValues.ContainsKey(key) || RouteValues[key].ToString() != value);
+                if (!RouteValues.ContainsKey(key) || RouteValues[key].ToString() != value)
                     return false;
             }
 

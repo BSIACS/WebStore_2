@@ -7,7 +7,7 @@
         <ul class="nav nav-pills nav-stacked">
             @foreach (BrandViewModel brand in Model.Where(p => p.Quantity > 0))
             {                
-                <li><a asp-controller="Catalogue" asp-action="Shop" asp-route-brandId="@brand.Id"> <span class="pull-right">(@brand.Quantity)</span>@brand.Name</a></li>
+                <li class=@(brand.Id == (int?)ViewData["brandId"] ? "active" : string.Empty)><a asp-controller="Catalogue" asp-action="Shop" asp-route-brandId="@brand.Id"> <span class="pull-right">(@brand.Quantity)</span>@brand.Name</a></li>
             }            
         </ul>
     </div>
