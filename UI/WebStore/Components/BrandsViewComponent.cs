@@ -15,13 +15,16 @@ namespace WebStore.Components
             _productData = productData;
         }
 
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(string brandId)
         {
             var brandsViewModels = _productData.GetBrands().Select(item => new BrandViewModel() { 
                 Id = item.Id,
                 Name = item.Name,
                 Quantity = item.ProductsCount
             });
+
+            int? intBrandId = int.TryParse(brandId, out int result) ? result : (int?)null;
+            ViewData["brandId"] = intBrandId;
 
             return View(brandsViewModels);
         }

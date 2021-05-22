@@ -19,12 +19,19 @@ namespace WebStore.Controllers
 
         public void Index()
         {
-            using (_logger.BeginScope<string>("Test area (begin scope)___________")) {
-                _logger.LogInformation("Test info logs");
-                _logger.LogWarning("Test warning logs");
-            }
+            //using (_logger.BeginScope<string>("Test area (begin scope)___________")) {
+            //    _logger.LogInformation("Test info logs");
+            //    _logger.LogWarning("Test warning logs");
+            //}
             
             //var emps = _employeesClient.GetAll();
+        }
+
+        public IActionResult TestAction(int id, string name, int age) {
+
+            ViewData["str"] = $"id = {id}, name = {name}, age = {age}";
+
+            return View();
         }
     }
 }
